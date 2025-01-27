@@ -1,7 +1,5 @@
-
 const { StatusCodes } = require('http-status-codes');
 const AppError = require('../utils/errors/app-error');
-
 
 class CrudRepository {
     constructor(model) {
@@ -9,44 +7,60 @@ class CrudRepository {
     }
 
     async create(data) {
-
-        const response = await this.model.create(data);
-        return response;
+        try {
+            const response = await this.model.create(data);
+            return response;
+        } catch (error) {
+            throw new AppError('Error creating resource', StatusCodes.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    async destroy(data) {
-
-        const response = await this.model.destroy({
-            where: {
-                id: data
+    async destroy(id) {
+        try {
+            const response = await this.model.findByIdAndDelete(id);
+            if (!response) {
+                throw new AppError("Resource not found to delete", StatusCodes.NOT_FOUND);
             }
-        });
-        if (!response) {
-            throw new AppError("Not able to delete the resouce", StatusCodes.NOT_FOUND)
+            return response;
+        } catch (error) {
+            throw new AppError('Error deleting resource', StatusCodes.INTERNAL_SERVER_ERROR);
         }
-        return response;
     }
 
-    async get(data) {
-        const response = await this.model.findByPk(data);
-        if (!response) {
-            throw new AppError("Not able to find the resource", StatusCodes.NOT_FOUND)
+    async get(id) {
+        try {
+            const response = await this.model.findById(id);
+            if (!response) {
+                throw new AppError("Resource not found", StatusCodes.NOT_FOUND);
+            }
+            return response;
+        } catch (error) {
+            throw new AppError('Error fetching resource', StatusCodes.INTERNAL_SERVER_ERROR);
         }
-        return response;
     }
 
     async getAll() {
-        const response = await this.model.findAll();
-        return response;
+        try {
+            const response = await this.model.find({});
+            return response;
+        } catch (error) {
+            throw new AppError('Error fetching all resources', StatusCodes.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    async update(id, data) { // data is an object -> {col: value, ....}
-        const response = await this.model.update(data, {
-            where: {
-                id: id
+    async update(id, data) {
+        try {
+            const response = await this.model.findByIdAndUpdate(id, data, {
+                new: true, // Return updated document
+                runValidators: true // Run schema validators
+            });
+            if (!response) {
+                throw new AppError("Resource not found to update", StatusCodes.NOT_FOUND);
             }
-        })
-        return response;
+            return response;
+        } catch (error) {
+            throw new AppError('Error updating resource', StatusCodes.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 

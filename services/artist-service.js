@@ -28,6 +28,7 @@ async function createArtist(data) {
 async function getArtists() {
     try {
         const artists = await artistRepository.getAll();
+        console.log("Fetched artists: ", artists);
         return artists;
     } catch (error) {
         throw new AppError('Cannot fetch data of all the artist', StatusCodes.INTERNAL_SERVER_ERROR);
