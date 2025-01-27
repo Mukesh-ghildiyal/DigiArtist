@@ -1,0 +1,68 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+
+# Runtime data
+pids/
+*.pid
+*.pid.lock
+
+# Directory for local OS-specific temporary files
+tmp/
+temp/
+
+# Editor-specific files
+.DS_Store
+.vscode/
+.idea/
+
+# Debugging logs
+debug.log
+
+# Build files
+dist/
+build/
+
+# Coverage reports
+coverage/
+
+# NPM Packages
+*.tgz
+
+# Optional npm cache directory
+.npm/
+
+# Yarn Integrity
+.yarn-integrity
+
+# Parcel-bundler cache
+.cache/
+
+# Jest testing
+jest-cache/
+jest-test-results.json
+
+# Typescript
+*.tsbuildinfo
+
+# Ignore package-lock.json if using Yarn
+package-lock.json
+
+# Ignore lockfile backup (if accidentally generated)
+yarn.lock
+
+# Cloudinary temporary files
+*.cloudinary
+
+# MongoDB-related
+*.seed.js
+
